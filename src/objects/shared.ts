@@ -10,5 +10,3 @@ export type ObjectIterableCallback<TT, K extends keyof TT, R> = (
   key: K,
   object: TT,
 ) => R
-
-export {}

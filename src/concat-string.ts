@@ -1,4 +1,4 @@
-type JoinStr<T extends Array<unknown>> = T extends []
+export type JoinStr<T extends Array<unknown>> = T extends []
   ? ''
   : T extends [string]
   ? `${T[0]}`

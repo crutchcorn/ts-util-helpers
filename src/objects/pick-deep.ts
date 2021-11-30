@@ -8,11 +8,11 @@ type DeepReplaceKeysPartialObj<Obj extends object, T> = {
     : T
 }
 
-type DeepReplaceKeys<Obj, T> = Obj extends object
+export type DeepReplaceKeys<Obj, T> = Obj extends object
   ? DeepReplaceKeysPartialObj<Obj, T>
   : Obj
 
-type DeepPartial<T> = {
+export type DeepPartial<T> = {
   [P in keyof T]?: DeepPartial<T[P]>
 }
 
@@ -32,7 +32,7 @@ type PickDeepObj<
     : never
 }
 
-type PickDeep<ReplaceType, Obj, T> = Obj extends object
+export type PickDeep<ReplaceType, Obj, T> = Obj extends object
   ? PickDeepObj<ReplaceType, Obj, T>
   : Obj
 
