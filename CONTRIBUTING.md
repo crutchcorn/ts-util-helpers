@@ -15,7 +15,7 @@ series [How to Contribute to an Open Source Project on GitHub][egghead]
 > requests from branches on your fork. To do this, run:
 >
 > ```
-> git remote add upstream https://github.com/kentcdodds/ts-util-helpers
+> git remote add upstream https://github.com/crutchcorn/ts-util-helpers
 > git fetch upstream
 > git branch --set-upstream-to=upstream/main main
 > ```
@@ -41,5 +41,5 @@ requests! Thanks!
 
 <!-- prettier-ignore-start -->
 [egghead]: https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github
-[issues]: https://github.com/kentcdodds/ts-util-helpers/issues
+[issues]: https://github.com/crutchcorn/ts-util-helpers/issues
 <!-- prettier-ignore-end -->

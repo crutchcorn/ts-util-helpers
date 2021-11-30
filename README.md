@@ -110,24 +110,24 @@ MIT
 <!-- prettier-ignore-start -->
 [npm]: https://www.npmjs.com
 [node]: https://nodejs.org
-[build-badge]: https://img.shields.io/github/workflow/status/kentcdodds/ts-util-helpers/validate?logo=github&style=flat-square
-[build]: https://github.com/kentcdodds/ts-util-helpers/actions?query=workflow%3Avalidate
-[coverage-badge]: https://img.shields.io/codecov/c/github/kentcdodds/ts-util-helpers.svg?style=flat-square
-[coverage]: https://codecov.io/github/kentcdodds/ts-util-helpers
+[build-badge]: https://img.shields.io/github/workflow/status/crutchcorn/ts-util-helpers/validate?logo=github&style=flat-square
+[build]: https://github.com/crutchcorn/ts-util-helpers/actions?query=workflow%3Avalidate
+[coverage-badge]: https://img.shields.io/codecov/c/github/crutchcorn/ts-util-helpers.svg?style=flat-square
+[coverage]: https://codecov.io/github/crutchcorn/ts-util-helpers
 [version-badge]: https://img.shields.io/npm/v/ts-util-helpers.svg?style=flat-square
 [package]: https://www.npmjs.com/package/ts-util-helpers
 [downloads-badge]: https://img.shields.io/npm/dm/ts-util-helpers.svg?style=flat-square
 [npmtrends]: https://www.npmtrends.com/ts-util-helpers
 [license-badge]: https://img.shields.io/npm/l/ts-util-helpers.svg?style=flat-square
-[license]: https://github.com/kentcdodds/ts-util-helpers/blob/main/LICENSE
+[license]: https://github.com/crutchcorn/ts-util-helpers/blob/main/LICENSE
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
 [prs]: https://makeapullrequest.com
 [coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
-[coc]: https://github.com/kentcdodds/ts-util-helpers/blob/main/CODE_OF_CONDUCT.md
+[coc]: https://github.com/crutchcorn/ts-util-helpers/blob/main/CODE_OF_CONDUCT.md
 [emojis]: https://github.com/all-contributors/all-contributors#emoji-key
 [all-contributors]: https://github.com/all-contributors/all-contributors
-[all-contributors-badge]: https://img.shields.io/github/all-contributors/kentcdodds/ts-util-helpers?color=orange&style=flat-square
-[bugs]: https://github.com/kentcdodds/ts-util-helpers/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+sort%3Acreated-desc+label%3Abug
-[requests]: https://github.com/kentcdodds/ts-util-helpers/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc+label%3Aenhancement
-[good-first-issue]: https://github.com/kentcdodds/ts-util-helpers/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc+label%3Aenhancement+label%3A%22good+first+issue%22
+[all-contributors-badge]: https://img.shields.io/github/all-contributors/crutchcorn/ts-util-helpers?color=orange&style=flat-square
+[bugs]: https://github.com/crutchcorn/ts-util-helpers/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+sort%3Acreated-desc+label%3Abug
+[requests]: https://github.com/crutchcorn/ts-util-helpers/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc+label%3Aenhancement
+[good-first-issue]: https://github.com/crutchcorn/ts-util-helpers/issues?utf8=%E2%9C%93&q=is%3Aissue+is%3Aopen+sort%3Areactions-%2B1-desc+label%3Aenhancement+label%3A%22good+first+issue%22
 <!-- prettier-ignore-end -->

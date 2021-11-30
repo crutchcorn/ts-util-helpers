@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "keywords": [],
-  "author": "Kent C. Dodds <me@kentcdodds.com> (https://kentcdodds.com)",
+  "author": "Corbin Crutchley <git@crutchcorn.dev> (https://crutchcorn.dev)",
   "license": "MIT",
   "engines": {
     "node": ">=12",
@@ -13,12 +13,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kentcdodds/ts-util-helpers"
+    "url": "https://github.com/crutchcorn/ts-util-helpers"
   },
   "bugs": {
-    "url": "https://github.com/kentcdodds/ts-util-helpers/issues"
+    "url": "https://github.com/crutchcorn/ts-util-helpers/issues"
   },
-  "homepage": "https://github.com/kentcdodds/ts-util-helpers#readme",
+  "homepage": "https://github.com/crutchcorn/ts-util-helpers#readme",
   "files": [
     "dist"
   ],
