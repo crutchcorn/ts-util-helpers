@@ -91,11 +91,11 @@ Thanks goes to these people ([emoji key][emojis]):
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://kentcdodds.com"><img src="https://avatars.githubusercontent.com/u/1500684?v=3" width="100px;" alt="Kent C. Dodds"/><br /><sub><b>Kent C. Dodds</b></sub></a><br /><a href="https://github.com/kentcdodds/ts-util-helpers/commits?author=kentcdodds" title="Code">💻</a> <a href="https://github.com/kentcdodds/ts-util-helpers/commits?author=kentcdodds" title="Documentation">📖</a> <a href="#infra-kentcdodds" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/kentcdodds/ts-util-helpers/commits?author=kentcdodds" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://crutchcorn.dev/"><img src="https://avatars.githubusercontent.com/u/9100169?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Corbin Crutchley</b></sub></a><br /><a href="https://github.com/crutchcorn/ts-util-helpers/commits?author=crutchcorn" title="Code">💻</a> <a href="#infra-crutchcorn" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/crutchcorn/ts-util-helpers/commits?author=crutchcorn" title="Documentation">📖</a> <a href="https://github.com/crutchcorn/ts-util-helpers/commits?author=crutchcorn" title="Tests">⚠️</a></td>
   </tr>
 </table>
 
-<!-- markdownlint-enable -->
+<!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->

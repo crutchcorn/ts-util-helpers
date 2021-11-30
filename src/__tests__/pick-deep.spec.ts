@@ -1,5 +1,6 @@
 import {pickDeep} from '../pick-deep'
 
+// 🙄
 type Whatever = {
   [key: string]: Whatever
 }
