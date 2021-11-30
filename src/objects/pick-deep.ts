@@ -1,7 +1,4 @@
-// NaN also, but `typeof NaN` === number
-type Falsy = false | null | undefined | 0 | -0 | 0n | ''
-
-type AnyArray<T> = Array<T> | ReadonlyArray<T>
+import {AnyArray, Falsy} from '../shared'
 
 type DeepReplaceKeysPartialObj<Obj extends object, T> = {
   [key in keyof Obj]: Obj[key] extends AnyArray<infer Q>

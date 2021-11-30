@@ -10,9 +10,9 @@ test('expect basic prop mapping to occur', () => {
     } as const,
     val => val > 2,
   )
-  expectType<number | undefined>(filteredObj.a)
-  expectType<number | undefined>(filteredObj.b)
-  expectType<number | undefined>(filteredObj.c)
+  expectType<1 | undefined>(filteredObj.a)
+  expectType<2 | undefined>(filteredObj.b)
+  expectType<3 | undefined>(filteredObj.c)
 })
 
 test('expect key to pass through', () => {
@@ -24,9 +24,9 @@ test('expect key to pass through', () => {
     } as const,
     (_, key) => key === 'a',
   )
-  expectType<number | undefined>(filteredObj.a)
-  expectType<number | undefined>(filteredObj.b)
-  expectType<number | undefined>(filteredObj.c)
+  expectType<1 | undefined>(filteredObj.a)
+  expectType<2 | undefined>(filteredObj.b)
+  expectType<3 | undefined>(filteredObj.c)
 })
 
 test('expect full object to pass through', () => {
@@ -38,9 +38,9 @@ test('expect full object to pass through', () => {
     } as const,
     (_, __, obj) => Object.keys(obj).length === 2,
   )
-  expectType<number | undefined>(filteredObj.a)
-  expectType<number | undefined>(filteredObj.b)
-  expectType<number | undefined>(filteredObj.c)
+  expectType<1 | undefined>(filteredObj.a)
+  expectType<2 | undefined>(filteredObj.b)
+  expectType<3 | undefined>(filteredObj.c)
 })
 
 export {}
