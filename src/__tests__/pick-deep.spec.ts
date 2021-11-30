@@ -1,4 +1,4 @@
-import {pickDeep} from '../pick-deep'
+import {pickDeep} from '../objects/pick-deep'
 
 // 🙄
 type Whatever = {

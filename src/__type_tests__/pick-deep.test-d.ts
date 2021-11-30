@@ -1,5 +1,5 @@
 import {expectType, expectError} from 'tsd'
-import {pickDeep} from '../pick-deep'
+import {pickDeep} from '../objects/pick-deep'
 
 const pickedObject = pickDeep(
   {
