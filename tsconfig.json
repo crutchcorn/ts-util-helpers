@@ -1,3 +1,4 @@
 {
-  "extends": "./node_modules/kcd-scripts/shared-tsconfig.json"
+  "extends": "./node_modules/kcd-scripts/shared-tsconfig.json",
+  "exclude": ["node_modules", "src/**/*.test-d.ts"]
 }

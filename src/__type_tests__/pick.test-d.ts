@@ -12,9 +12,7 @@ test('only pick a single item from object', () => {
   )
 
   expectType<1>(obj.a)
-  // @ts-expect-error "Property not picked"
   expectError(obj.b)
-  // @ts-expect-error "Property not picked"
   expectError(obj.c)
 })
 

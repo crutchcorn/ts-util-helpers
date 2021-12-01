@@ -37,12 +37,10 @@ test('explicitly not selected items should be "never"', () => {
 
 test('arrays should not be unwrapped', () => {
   expectType<3000>(pickedObject.test.arr[0].other)
-  // @ts-expect-error "Other should not be found on unwrapped item"
   expectError(pickedObject.test.arr.other)
 })
 
 test('arrays should not have incorrect items present', () => {
-  // @ts-expect-error "Ignored should not be present"
   expectError(pickedObject.test.arr[0].ignored)
 })
 
@@ -58,8 +56,6 @@ test('should handle undefineable objects', () => {
     },
   })
 
-  // @ts-expect-error "We're not chaining here"
-  expectError(undefineableResults.test.hello)
   expectType<1 | undefined>(undefineableResults.test?.hello)
 })
 export {}

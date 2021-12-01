@@ -11,7 +11,6 @@ test('OnlyNonOptional should throw with optional passed', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const onlyRequired: OnlyNonOptional<ObjectToTest> = {
       requirement: 1,
-      // @ts-expect-error 'OnlyNonOptional should throw with optional passed'
       optional: 0,
     }
   })
@@ -29,7 +28,6 @@ test('OnlyOptional should throw with optional passed', () => {
   expectError(() => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const onlyOptional: OnlyOptional<ObjectToTest> = {
-      // @ts-expect-error 'OnlyOptional should throw with optional passed'
       requirement: 1,
       optional: 0,
     }
