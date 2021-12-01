@@ -48,3 +48,18 @@ test('arrays should not be unwrapped', () => {
 test('arrays should not have incorrect items present', () => {
   expect(pickedObject.test.arr[0].ignored).toBeFalsy()
 })
+
+test('should be able to handle undefined objects gracefully', () => {
+  const undefineableResults = pickDeep<{
+    test?: {
+      hello: 1
+      ignored: 2
+    }
+  }>({} as never, {
+    test: {
+      hello: true,
+    },
+  })
+
+  expect(undefineableResults.test?.hello).toBeFalsy()
+})

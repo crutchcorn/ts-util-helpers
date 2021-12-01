@@ -3,7 +3,7 @@ import {AnyArray, Falsy} from '../shared'
 type DeepReplaceKeysPartialObj<Obj extends object, T> = {
   [key in keyof Obj]: Obj[key] extends AnyArray<infer Q>
     ? DeepReplaceKeys<Q, T>
-    : Obj[key] extends object
+    : Exclude<Obj[key], undefined> extends object
     ? DeepReplaceKeys<Obj[key], T>
     : T
 }
@@ -38,7 +38,9 @@ export type PickDeep<ReplaceType, Obj, T> = Obj extends object
 
 export function pickDeep<
   Obj extends object,
-  ObjDec extends DeepPartial<DeepReplaceKeys<Obj, true | false>>,
+  ObjDec extends DeepPartial<DeepReplaceKeys<Obj, true | false>> = DeepPartial<
+    DeepReplaceKeys<Obj, true | false>
+  >,
 >(
   objToPick: Obj,
   pickObjDeclare: ObjDec,

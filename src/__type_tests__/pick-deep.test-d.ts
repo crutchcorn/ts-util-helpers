@@ -46,4 +46,20 @@ test('arrays should not have incorrect items present', () => {
   expectError(pickedObject.test.arr[0].ignored)
 })
 
+test('should handle undefineable objects', () => {
+  const undefineableResults = pickDeep<{
+    test?: {
+      hello: 1
+      ignored: 2
+    }
+  }>({} as never, {
+    test: {
+      hello: true,
+    },
+  })
+
+  // @ts-expect-error "We're not chaining here"
+  expectError(undefineableResults.test.hello)
+  expectType<1 | undefined>(undefineableResults.test?.hello)
+})
 export {}
