@@ -44,18 +44,26 @@ test('arrays should not have incorrect items present', () => {
   expectError(pickedObject.test.arr[0].ignored)
 })
 
+type OptionalObj = {
+  test?: {
+    hello: 1
+    ignored: 2
+  }
+}
+
 test('should handle undefineable objects', () => {
-  const undefineableResults = pickDeep<{
-    test?: {
-      hello: 1
-      ignored: 2
-    }
-  }>({} as never, {
-    test: {
-      hello: true,
-    },
-  })
+  const undefineableResults = pickDeep(
+    {
+      test: undefined,
+    } as const as OptionalObj,
+    {
+      test: {
+        hello: true,
+      },
+    } as const,
+  )
 
   expectType<1 | undefined>(undefineableResults.test?.hello)
+  expectError(undefineableResults.test?.ignored)
 })
 export {}

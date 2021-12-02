@@ -20,22 +20,28 @@ export type DeepPartial<T> = {
 
 type PickDeepObj<
   ReplaceType,
-  ToPick extends object,
-  PickObj extends DeepPartial<DeepReplaceKeys<ToPick, ReplaceType>>,
+  Obj extends object,
+  ObjQuery extends DeepPartial<DeepReplaceKeys<Obj, ReplaceType>>,
 > = {
   // A key must be in the query object to be added to final object
-  [key in keyof PickObj]: key extends keyof ToPick
-    ? // If in array, we need to unwrap the objects within for the "PickObj" object,
+  [key in keyof ObjQuery]: key extends keyof Obj
+    ? // If in array, we need to unwrap the objects within for the "ToPick" object,
       // but not unwrap the "ToPick" query object
-      ToPick[key] extends AnyArray<infer Q>
-      ? Array<PickDeep<ReplaceType, Q, PickObj[key]>>
+      Obj[key] extends AnyArray<infer Q>
+      ? Array<PickDeep<ReplaceType, Q, ObjQuery[key]>>
       : // If it's an object, pick it
-      ToPick[key] extends object
-      ? PickDeep<ReplaceType, ToPick[key], PickObj[key]>
+      Exclude<Obj[key], undefined> extends object
+      ? // Check if the object is optional. If it is, we need to unwrap the undefined object
+        // and then rewrap it (to keep the `undefined` types
+        Obj[key] extends Exclude<Obj[key], undefined>
+        ? PickDeep<ReplaceType, Obj[key], ObjQuery[key]>
+        :
+            | PickDeep<ReplaceType, Exclude<Obj[key], undefined>, ObjQuery[key]>
+            | undefined
       : // This trick only really works on `const` objects where falsyness can be eval'd at runtime
-      PickObj[key] extends Falsy
+      ObjQuery[key] extends Falsy
       ? never
-      : ToPick[key]
+      : Obj[key]
     : never
 }
 
@@ -45,16 +51,16 @@ export type PickDeep<ReplaceType, Obj, T> = Obj extends object
 
 export function pickDeep<
   Obj extends object,
-  ObjDec extends DeepPartial<DeepReplaceKeys<Obj, true | false>> = DeepPartial<
+  ObjQuery extends DeepPartial<
     DeepReplaceKeys<Obj, true | false>
-  >,
+  > = DeepPartial<DeepReplaceKeys<Obj, true | false>>,
 >(
   objToPick: Obj,
-  pickObjDeclare: ObjDec,
-): PickDeepObj<true | false, Obj, ObjDec> {
+  pickObjDeclare: ObjQuery,
+): PickDeepObj<true | false, Obj, ObjQuery> {
   // It may be a primitive
   if (typeof objToPick !== 'object') return objToPick
-  const returnObject: PickDeepObj<true | false, Obj, ObjDec> = {} as never
+  const returnObject: PickDeepObj<true | false, Obj, ObjQuery> = {} as never
   for (const key in pickObjDeclare) {
     if (key in objToPick) {
       const oKey = key as never
