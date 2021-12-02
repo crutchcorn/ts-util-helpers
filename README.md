@@ -19,11 +19,24 @@
 
 ## The problem
 
-// TODO
+Sometimes, in particular with developer tooling, you want to have immensely
+tight type strictness in your TypeScript codebase. However, to make your
+extremely code type strict can be
+[difficult to maintain](./src/objects/pick-deep.ts), to say the least.
+
+While type strictness can be overused in some instances, in others it allows you
+to be confident in the code you're shipping, and provide a uniquely strong
+developer experience.
 
 ## This solution
 
-// TODO
+This library provides extremely restrictive typings to common (and somewhat
+niche) utilities such as `pick`ing keys from an object.
+
+We've written some utilities that don't exist elsewhere that contain extremely
+complex TypeScript typings in the name of retaining as strict of type
+information as the compiler allows us to. We pull out all the stops to make that
+happen.
 
 ## Table of Contents
 
@@ -32,7 +45,9 @@
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Inspiration](#inspiration)
+  - [String Helpers](#string-helpers)
+  - [Object Helpers](#object-helpers)
+  - [Utility Types](#utility-types)
 - [Other Solutions](#other-solutions)
 - [Issues](#issues)
   - [🐛 Bugs](#-bugs)
@@ -53,16 +68,147 @@ npm install --save ts-util-helpers
 
 ## Usage
 
-// TODO
+We provide a myriad of utilities for your usage.
 
-## Inspiration
+### String Helpers
 
-// TODO
+#### String Concatination
+
+You can choose to use the implemented TS logic:
+
+```typescript
+import {concatStr} from 'ts-util-helpers'
+
+// Pseudo-code typing:
+// concatStr<R extends string>(...string[]): R;
+concatStr('H', 'i', '!') // Type is "Hi!"
+concatStr('Hi!') // Type is "Hi!"
+const constStr = 'Hi!' as const
+concatStr(constStr) // Type is "Hi!"
+// Strings must be `as const` for type strictness to apply
+const str = 'Hi!'
+concatStr(str) // Type is string
+```
+
+Or, if you just need the TS typing:
+
+```typescript
+import type {JoinStr} from 'ts-util-helpers';
+
+JoinStr<["H", "i"]> // Type is "Hi!"
+```
+
+### Object Helpers
+
+#### Immutability Set Property
+
+This function takes three properties:
+
+1. An object
+2. A key name
+3. A value to set to the key name
+
+And returns a new object for you to use with said key updated.
+
+```typescript
+import {objectImmutablySetProp} from 'ts-util-helpers'
+
+// Return type is `{welcomeMsg: "Hello, world!"}
+objectImmutablySetProp({welcomeMsg: 'Hey'}, 'welcomeMsg', 'Hello, world!')
+```
+
+This is what it's doing under-the-hood at runtime:
+
+```javascript
+return {...object, [key]: val}
+```
+
+While the logic of this is quite simple, the typings can be somewhat tricky if
+you're not familiar with mapped generics to get only the single key updating.
+
+#### Object Filter
+
+Similar to `Array.filter`, `objectFilter` allows you to take:
+
+1. An object to iterate through
+2. A callback
+
+And filter out the keys based on said callback from the returned object.
+
+The callback receives three properties:
+
+1. The value of the key being inspected
+2. The key name being inspected
+3. The full object
+
+```typescript
+import {objectFilter} from 'ts-util-helpers'
+
+// Return type is Optional<{a: 1, b: 2, c: 3}>
+// Return value is {a: 1, b: 2}
+objectFilter({a: 1, b: 2, c: 3}, val => val <= 2)
+```
+
+> If you know how to make this function more type-strict, please [make a pull
+> request][prs] or open an issue and let us know! We tried for ages to
+> experiment different ways
+
+#### Object Map
+
+Similar to `Array.map`, `objectMap` allows you to take:
+
+1. An object to iterate through
+2. A callback
+
+And map keys' values based on said callback from the returned object.
+
+The callback receives three properties:
+
+1. The value of the key being inspected
+2. The key name being inspected
+3. The full object
+
+```typescript
+import {objectMap} from 'ts-util-helpers'
+
+// Return type is Optional<{a: number, b: number, c: number}>
+// Return value is {a: 3, b: 4, c: 5}
+objectMap({a: 1, b: 2, c: 3}, val => val + 2)
+
+// Return type is Optional<{a: "a" | "b" | "c", b: "a" | "b" | "c", c: "a" | "b" | "c"}>
+// Return value is {a: "a", b: "b", c: "c"}
+objectMap({a: 1, b: 2, c: 3}, (_, key) => key)
+
+// Return type is Optional<{a: number, b: number, c: number}>
+// Return value is {a: 3, b: 3, c: 3}
+objectMap({a: 1, b: 2, c: 3}, (_, __, obj) => Object.keys(obj).length)
+```
+
+> If you know how to make this function more type-strict, please [make a pull
+> request][prs] or open an issue and let us know! We tried for ages to
+> experiment different ways
+
+### Utility Types
+
+```typescript
+import type {OnlyOptional, OnlyNonOptional} from 'ts-util-helpers';
+
+type Obj = {
+    optional?: 1,
+    required: 2
+}
+OnlyOptional<Obj>; // Type will be {optional?: 1}
+OnlyNonOptional<Obj>; // Type will be {required: 2}
+```
 
 ## Other Solutions
 
-I'm not aware of any, if you are please [make a pull request][prs] and add it
-here!
+- [Type Fest](https://github.com/sindresorhus/type-fest) provides some great
+  utility types without implementations
+- [Lodash](https://lodash.com/) provides some (usually less strictly typed)
+  utility functions
+
+If you know more, please [make a pull request][prs] and add it here!
 
 ## Issues
 
