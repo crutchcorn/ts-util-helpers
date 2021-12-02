@@ -5,5 +5,5 @@ export function objectImmutablySetProp<T extends object, K extends keyof T, V>(
 ): {
   [P in keyof T]: P extends K ? V : T[P]
 } {
-  return Object.assign({}, object, {[key]: val}) as never
+  return {...object, [key]: val} as never
 }

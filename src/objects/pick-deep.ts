@@ -1,9 +1,11 @@
 import {AnyArray, Falsy} from '../shared'
 
 type DeepReplaceKeysPartialObj<Obj extends object, T> = {
+  // If this is an array, we want to flatten it to an object for QGL-like queries
   [key in keyof Obj]: Obj[key] extends AnyArray<infer Q>
     ? DeepReplaceKeys<Q, T>
-    : Exclude<Obj[key], undefined> extends object
+    : // We need to handle `undefined` for optional objects
+    Exclude<Obj[key], undefined> extends object
     ? DeepReplaceKeys<Obj[key], T>
     : T
 }
@@ -21,12 +23,17 @@ type PickDeepObj<
   ToPick extends object,
   PickObj extends DeepPartial<DeepReplaceKeys<ToPick, ReplaceType>>,
 > = {
+  // A key must be in the query object to be added to final object
   [key in keyof PickObj]: key extends keyof ToPick
-    ? ToPick[key] extends AnyArray<infer Q>
+    ? // If in array, we need to unwrap the objects within for the "PickObj" object,
+      // but not unwrap the "ToPick" query object
+      ToPick[key] extends AnyArray<infer Q>
       ? Array<PickDeep<ReplaceType, Q, PickObj[key]>>
-      : ToPick[key] extends object
+      : // If it's an object, pick it
+      ToPick[key] extends object
       ? PickDeep<ReplaceType, ToPick[key], PickObj[key]>
-      : PickObj[key] extends Falsy
+      : // This trick only really works on `const` objects where falsyness can be eval'd at runtime
+      PickObj[key] extends Falsy
       ? never
       : ToPick[key]
     : never
