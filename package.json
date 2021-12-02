@@ -25,6 +25,7 @@
   "scripts": {
     "build": "kcd-scripts build",
     "lint": "kcd-scripts lint",
+    "format": "kcd-scripts format",
     "setup": "npm install && npm run validate -s",
     "test": "kcd-scripts test",
     "test:types": "yarn tsd other",
