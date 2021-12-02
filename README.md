@@ -188,6 +188,125 @@ objectMap({a: 1, b: 2, c: 3}, (_, __, obj) => Object.keys(obj).length)
 > request][prs] or open an issue and let us know! We tried for ages to
 > experiment different ways
 
+#### Pick
+
+There are often times where you may want to object destructure values from an
+array that's passed in during runtime, but don't want to lose your type
+strictness.
+
+While solutions like [`_.pick`](https://lodash.com/docs/4.17.15#pick) allow you
+to get the values, you'd have to manually re-type everything.
+
+This is where `pick` comes into play.
+
+```typescript
+import {pick} from 'ts-util-helpers'
+
+// Return type is {test: 1, other: 2}
+pick({test: 1, other: 2, ignored: 3} as const, ['test', 'other'])
+```
+
+> This utility only supports the top-most level of keys in an object. If you
+> need something that can handle any depth,
+> [see our "pick deep" utility if you need arbitrary depth](#pick-deep)
+
+#### Pick Deep
+
+This utility provides an almost-[GQL](https://graphql.org/)-like query interface
+to pick only the keys you need from an object at any depth.
+
+It takes two arguments:
+
+1. The object to get values from
+2. The query object, telling the utility what object to get values from
+
+```typescript
+import {pickDeep} from 'ts-util-helpers'
+
+const obj = {
+  key: 'Hello',
+  ignored: 1,
+  exlcluded: 2,
+  arr: [{objVal: 3}],
+  deepObj: {
+    num: 4,
+    deeper: {
+      val: 5,
+      ignored: 6,
+    },
+  },
+} as const
+
+const queryObj = {
+  key: true,
+  excluded: false,
+  arr: {
+    objVal: true,
+  },
+  deepObj: {
+    num: true,
+    deeper: {
+      val: true,
+    },
+  },
+} as const
+
+pickDeep(obj, queryObj)
+
+/*
+// Return type and value is:
+{
+    key: "Hello",
+    arr: [
+        {objVal: 3}
+    ],
+    deepObj: {
+        num: 4,
+        deeper: {
+            val: 5
+        }
+    }
+}
+*/
+```
+
+The query object must have a `true` or `false` value passed to grab the
+underlying value or not. To query for arrays, simply pass an argument that
+aligns with the underlying types.
+
+We will also enforce the required `queryObj` to be the same expected shape as
+the `obj`, if you don't see this behavior - consider it a bug.
+
+> While you can `true` or `false` any object key, you cannot do so if the key's
+> value is an array or object currently.
+>
+> This means that while this works:
+>
+> ```typescript
+> pickDeep(
+>   {parent: {child: 1}},
+>   {
+>     parent: {
+>       child: true,
+>     },
+>   },
+> )
+> ```
+>
+> This does not:
+>
+> ```typescript
+> pickDeep(
+>   {parent: {child: 1}},
+>   {
+>     parent: true,
+>   },
+> )
+> ```
+>
+> This is a limitation with our typings currently and should be fixed in the
+> future.
+
 ### Utility Types
 
 ```typescript
