@@ -24,8 +24,8 @@ type PickDeepObj<
 > = {
   // A key must be in the query object to be added to final object
   [key in keyof ObjQuery]: key extends keyof Obj
-    // If the query wants, query gets - regardless of type
-    ? ObjQuery[key] extends true
+    ? // If the query wants, query gets - regardless of type
+      ObjQuery[key] extends true
       ? Obj[key]
       : // If in array, we need to unwrap the objects within for the "ToPick" object,
       // but not unwrap the "ToPick" query object
@@ -45,7 +45,16 @@ type PickDeepObj<
     : never
 }
 
-export type PickDeep<Obj, T> = Obj extends object ? PickDeepObj<Obj, T> : Obj
+// Because QueryObj can be a boolean at any type, we must check for it here
+// and resolve it. Either by removing the type or returning the object
+// based on if true or not
+export type PickDeep<Obj, QueryObj> = QueryObj extends boolean
+  ? QueryObj extends true
+    ? Obj
+    : never
+  : Obj extends object
+  ? PickDeepObj<Obj, QueryObj>
+  : Obj
 
 export function pickDeep<
   Obj extends object,

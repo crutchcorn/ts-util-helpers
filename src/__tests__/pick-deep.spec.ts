@@ -55,7 +55,7 @@ test('should be able to handle undefined objects gracefully', () => {
       hello: 1
       ignored: 2
     }
-  }>({} as never, {
+  }>({}, {
     test: {
       hello: true,
     },
