@@ -66,4 +66,22 @@ test('should handle undefineable objects', () => {
   expectType<1 | undefined>(undefineableResults.test?.hello)
   expectError(undefineableResults.test?.ignored)
 })
+
+test('should handle truthy object keys', () => {
+  const undefineableResults = pickDeep(
+    {
+      test: {
+        hello: 1,
+        notIgnored: 2,
+      },
+    } as const,
+    {
+      test: true,
+    } as const,
+  )
+
+  expectType<1>(undefineableResults.test.hello)
+  expectType<2>(undefineableResults.test.notIgnored)
+})
+
 export {}

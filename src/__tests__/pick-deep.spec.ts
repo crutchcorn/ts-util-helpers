@@ -59,28 +59,29 @@ test('should be able to handle undefined objects gracefully', () => {
     test: {
       hello: true,
     },
-  })
+  } as const)
 
   expect(undefineableResults.test?.hello).toBeFalsy()
 })
 
 test('should be able to handle true pick objects', () => {
-  const undefineableResults = pickDeep({
-    test: {
-      hello: {
-        one: 1,
-        two: 2
+  const undefineableResults = pickDeep(
+    {
+      test: {
+        hello: {
+          one: 1,
+          two: 2,
+        },
+        ignored: 2,
       },
-      ignored: 2
-    }
-  }, {
-    test: {
-      hello: true,
-    },
-  } as never)
+    } as const,
+    {
+      test: {
+        hello: true,
+      },
+    } as const,
+  )
 
-  // @ts-ignore
   expect(undefineableResults.test.hello.one).toBe(1)
-  // @ts-ignore
   expect(undefineableResults.test.hello.two).toBe(2)
 })
