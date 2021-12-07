@@ -46,13 +46,7 @@ happen.
 - [Installation](#installation)
 - [Usage](#usage)
   - [String Helpers](#string-helpers)
-    - [String Concatination](#string-concatination)
   - [Object Helpers](#object-helpers)
-    - [Immutability Set Property](#immutability-set-property)
-    - [Object Filter](#object-filter)
-    - [Object Map](#object-map)
-    - [Pick](#pick)
-    - [Pick Deep](#pick-deep)
   - [Utility Types](#utility-types)
 - [Other Solutions](#other-solutions)
 - [Issues](#issues)
@@ -283,10 +277,10 @@ aligns with the underlying types.
 We will also enforce the required `queryObj` to be the same expected shape as
 the `obj`, if you don't see this behavior - consider it a bug.
 
-> While you can `true` or `false` any object key, you cannot do so if the key's
-> value is an array or object currently.
+> While you can `true` or `false` any object key, you can also do so if the
+> key's value is an array or object currently.
 >
-> This means that while this works:
+> This means that this works:
 >
 > ```typescript
 > pickDeep(
@@ -299,7 +293,7 @@ the `obj`, if you don't see this behavior - consider it a bug.
 > )
 > ```
 >
-> This does not:
+> And so does this:
 >
 > ```typescript
 > pickDeep(
@@ -309,9 +303,6 @@ the `obj`, if you don't see this behavior - consider it a bug.
 >   },
 > )
 > ```
->
-> This is a limitation with our typings currently and should be fixed in the
-> future.
 
 ### Utility Types
 
