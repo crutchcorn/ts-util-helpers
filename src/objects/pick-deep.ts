@@ -1,17 +1,17 @@
 import {AnyArray, Falsy} from '../shared'
 
-type DeepReplaceKeysPartialObj<Obj extends object, T> = {
+type DeepReplaceKeysPartialObj<Obj extends object> = {
   // If this is an array, we want to flatten it to an object for QGL-like queries
   [key in keyof Obj]: Obj[key] extends AnyArray<infer Q>
-    ? DeepReplaceKeys<Q, T>
+    ? DeepReplaceKeys<Q>
     : // We need to handle `undefined` for optional objects
     Exclude<Obj[key], undefined> extends object
-    ? DeepReplaceKeys<Obj[key], T>
-    : T
+    ? DeepReplaceKeys<Obj[key]>
+    : true | false
 }
 
-export type DeepReplaceKeys<Obj, T> = Obj extends object
-  ? DeepReplaceKeysPartialObj<Obj, T>
+export type DeepReplaceKeys<Obj> = Obj extends object
+  ? DeepReplaceKeysPartialObj<Obj>
   : Obj
 
 export type DeepPartial<T> = {
@@ -19,24 +19,23 @@ export type DeepPartial<T> = {
 }
 
 type PickDeepObj<
-  ReplaceType,
   Obj extends object,
-  ObjQuery extends DeepPartial<DeepReplaceKeys<Obj, ReplaceType>>,
+  ObjQuery extends DeepPartial<DeepReplaceKeys<Obj>>,
 > = {
   // A key must be in the query object to be added to final object
   [key in keyof ObjQuery]: key extends keyof Obj
     ? // If in array, we need to unwrap the objects within for the "ToPick" object,
       // but not unwrap the "ToPick" query object
       Obj[key] extends AnyArray<infer Q>
-      ? Array<PickDeep<ReplaceType, Q, ObjQuery[key]>>
+      ? Array<PickDeep<Q, ObjQuery[key]>>
       : // If it's an object, pick it
       Exclude<Obj[key], undefined> extends object
       ? // Check if the object is optional. If it is, we need to unwrap the undefined object
         // and then rewrap it (to keep the `undefined` types
         Obj[key] extends Exclude<Obj[key], undefined>
-        ? PickDeep<ReplaceType, Obj[key], ObjQuery[key]>
+        ? PickDeep<Obj[key], ObjQuery[key]>
         :
-            | PickDeep<ReplaceType, Exclude<Obj[key], undefined>, ObjQuery[key]>
+            | PickDeep<Exclude<Obj[key], undefined>, ObjQuery[key]>
             | undefined
       : // This trick only really works on `const` objects where falsyness can be eval'd at runtime
       ObjQuery[key] extends Falsy
@@ -45,25 +44,33 @@ type PickDeepObj<
     : never
 }
 
-export type PickDeep<ReplaceType, Obj, T> = Obj extends object
-  ? PickDeepObj<ReplaceType, Obj, T>
+export type PickDeep<Obj, T> = Obj extends object
+  ? PickDeepObj<Obj, T>
   : Obj
 
 export function pickDeep<
   Obj extends object,
   ObjQuery extends DeepPartial<
-    DeepReplaceKeys<Obj, true | false>
-  > = DeepPartial<DeepReplaceKeys<Obj, true | false>>,
+    DeepReplaceKeys<Obj>
+  > = DeepPartial<DeepReplaceKeys<Obj>>,
 >(
   objToPick: Obj,
   pickObjDeclare: ObjQuery,
-): PickDeepObj<true | false, Obj, ObjQuery> {
+): PickDeepObj<Obj, ObjQuery> {
   // It may be a primitive
   if (typeof objToPick !== 'object') return objToPick
-  const returnObject: PickDeepObj<true | false, Obj, ObjQuery> = {} as never
+  const returnObject: PickDeepObj<Obj, ObjQuery> = {} as never
   for (const key in pickObjDeclare) {
     if (key in objToPick) {
       const oKey = key as never
+      const toPickKeyVal = pickObjDeclare[key] as never;
+      if (toPickKeyVal === true) {
+        returnObject[key] = objToPick[oKey]
+        continue;
+      }
+      if (toPickKeyVal === false) {
+        continue;
+      }
       if (Array.isArray(objToPick[oKey])) {
         returnObject[key] = (objToPick[oKey] as object[]).map(
           (item: object) => {
@@ -73,9 +80,9 @@ export function pickDeep<
       } else if (typeof objToPick[oKey] === 'object') {
         returnObject[key] = pickDeep(
           objToPick[oKey],
-          pickObjDeclare[key] as never,
+          toPickKeyVal,
         )
-      } else if (pickObjDeclare[key]) returnObject[key] = objToPick[oKey]
+      }
     }
   }
   return returnObject
