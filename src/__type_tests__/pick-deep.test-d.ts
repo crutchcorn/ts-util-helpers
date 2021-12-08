@@ -120,4 +120,36 @@ test('should handle loosely defined objects', () => {
   expectType<any>(undefineableResults.test.notIgnored)
 })
 
+test('should complain when no original query items are passed', () => {
+  expectError(
+    pickDeep(
+      {
+        a: 1,
+      } as const,
+      {
+        b: true,
+      } as const,
+    ),
+  )
+})
+
+test('should complain when additional query items are passed', () => {
+  const obj = {
+    a: 1,
+    arr: [
+      {
+        hello: 1,
+      },
+    ],
+    ignored: false,
+  } as const
+
+  expectError(
+    pickDeep(obj, {
+      a: true,
+      b: false,
+    } as const),
+  )
+})
+
 export {}
