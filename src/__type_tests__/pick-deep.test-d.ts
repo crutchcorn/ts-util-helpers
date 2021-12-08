@@ -84,4 +84,39 @@ test('should handle truthy object keys', () => {
   expectType<2>(undefineableResults.test.notIgnored)
 })
 
+test('should handle falsy object keys', () => {
+  const undefineableResults = pickDeep(
+    {
+      test: {
+        hello: 1,
+        notIgnored: 2,
+      },
+    } as const,
+    {
+      test: false,
+    } as const,
+  )
+
+  expectError(undefineableResults.test.hello)
+  expectError(undefineableResults.test.notIgnored)
+})
+
+test('should handle loosely defined objects', () => {
+  const undefineableResults = pickDeep(
+      {
+        test: {
+          hello: 1,
+          notIgnored: 2,
+        },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } as Record<string, any>,
+      {
+        test: true,
+      },
+  )
+
+  expectType<unknown>(undefineableResults.test.hello)
+  expectType<unknown>(undefineableResults.test.notIgnored)
+})
+
 export {}
