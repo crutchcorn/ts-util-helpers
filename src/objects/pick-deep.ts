@@ -1,22 +1,21 @@
 import {AnyArray, Falsy} from '../shared'
+import {DeepPartial} from '../helper-types'
+
+type UBool = true | false
 
 type DeepReplaceKeysPartialObj<Obj extends object> = {
   // If this is an array, we want to flatten it to an object for QGL-like queries
   [key in keyof Obj]: Obj[key] extends AnyArray<infer Q>
-    ? DeepReplaceKeys<Q> | true | false
+    ? DeepReplaceKeys<Q> | UBool
     : // We need to handle `undefined` for optional objects
     Exclude<Obj[key], undefined> extends object
-    ? DeepReplaceKeys<Obj[key]> | true | false
-    : true | false
+    ? DeepReplaceKeys<Obj[key]> | UBool
+    : UBool
 }
 
 export type DeepReplaceKeys<Obj> = Obj extends object
   ? DeepReplaceKeysPartialObj<Obj>
   : Obj
-
-export type DeepPartial<T> = {
-  [P in keyof T]?: DeepPartial<T[P]>
-}
 
 type PickDeepObj<
   Obj extends object,

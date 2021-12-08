@@ -103,20 +103,21 @@ test('should handle falsy object keys', () => {
 
 test('should handle loosely defined objects', () => {
   const undefineableResults = pickDeep(
-      {
-        test: {
-          hello: 1,
-          notIgnored: 2,
-        },
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } as Record<string, any>,
-      {
-        test: true,
+    {
+      test: {
+        hello: 1,
+        notIgnored: 2,
       },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as Record<string, any>,
+    {
+      test: true,
+    },
   )
-
-  expectType<unknown>(undefineableResults.test.hello)
-  expectType<unknown>(undefineableResults.test.notIgnored)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-member-access
+  expectType<any>(undefineableResults.test.hello)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-member-access
+  expectType<any>(undefineableResults.test.notIgnored)
 })
 
 export {}
